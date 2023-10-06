@@ -10,6 +10,7 @@ let enemySpeed = 2;
 //Load
 
 window.addEventListener('load', () => {
+    // Road Line
    for (let i = 0; i < 10; i++) {
     let roadLine = document.createElement('div');
     roadLine.classList.add('road_line');
@@ -17,6 +18,9 @@ window.addEventListener('load', () => {
     canvas.append(roadLine);
     console.log(roadLine);
    }
+
+
+   //Enemy Loop
 
    for (let enemyIndex = 0; enemyIndex < 5; enemyIndex++) {
     let enemy = document.createElement('div');
@@ -29,6 +33,8 @@ window.addEventListener('load', () => {
 
 //End Load
 
+
+//Enemy Move
 function enemyMove() {
     const carPosition = car.getBoundingClientRect();
     enemies.forEach((enemy) => {
@@ -45,6 +51,8 @@ function enemyMove() {
         enemy.style.top = `${enemyPosition.top + ratioY * enemySpeed}px`;
     });
 }
+
+//End Enemy Move
 
 //Car Move
 function carMove() {
