@@ -9,6 +9,7 @@ let carWidth = car.offsetWidth;
 let carHeight = car.offsetHeight;
 let enemySpeed = 2;
 let isPaused = false;
+let enemyPosition;
 
 //Load
 
@@ -33,8 +34,7 @@ window.addEventListener('load', () => {
 
 //End Load
 
-
-//Enemy Move
+//Check Collision
 
 function checkCollision(carPosition, enemyPosition) {
     const carRect = carPosition;
@@ -48,10 +48,30 @@ function checkCollision(carPosition, enemyPosition) {
     );
   }
 
+
+  function checkBulletAndEnemyCollision(bulletPosition, enemyPosition) {
+    const bulletRect = bulletPosition;
+    const enemyRect = enemyPosition;
+  
+    return (
+      bulletRect.right > enemyRect.left &&
+      bulletRect.left < enemyRect.right &&
+      bulletRect.bottom > enemyRect.top &&
+      bulletRect.top < enemyRect.bottom
+    );
+  }
+
+
+
+//End CheckColission
+
+
+//Enemy Move
+
 function enemyMove() {
     const carPosition = car.getBoundingClientRect();
-    enemies.forEach((enemy) => {
-        const enemyPosition = enemy.getBoundingClientRect();
+    enemies.forEach((enemy, enemyIndex) => {
+         enemyPosition = enemy.getBoundingClientRect();
 
         const deltaX = carPosition.x - enemyPosition.x;
         const deltaY = carPosition.y - enemyPosition.y;
@@ -65,6 +85,8 @@ function enemyMove() {
 
         if (checkCollision(carPosition, enemyPosition)) {
             console.log('Crash!');
+            car.remove()
+            isPaused = true
           }
     });
 
@@ -124,25 +146,36 @@ function carMove() {
 //Shoot bullet
 
 function moveBullets() {
-    bullets.forEach((bulletData) => {
-        const { bullet, bulletDirection } = bulletData;
-        
-        if (bulletDirection === 'up') {
-            bullet.style.top = `${parseFloat(bullet.style.top) - 5}px`;
-        } else if (bulletDirection === 'down') {
-            bullet.style.top = `${parseFloat(bullet.style.top) + 5}px`;
-        } else if (bulletDirection === 'right') {
-            bullet.style.left = `${parseFloat(bullet.style.left) + 5}px`;
-        } else if (bulletDirection === 'left') {
-            bullet.style.left = `${parseFloat(bullet.style.left) - 5}px`;
+    bullets.forEach((bulletData, bulletIndex) => {
+      const { bullet, bulletDirection } = bulletData;
+      const bulletPosition = bullet.getBoundingClientRect(); 
+  
+      if (bulletDirection === 'up') {
+        bullet.style.top = `${parseFloat(bullet.style.top) - 5}px`;
+      } else if (bulletDirection === 'down') {
+        bullet.style.top = `${parseFloat(bullet.style.top) + 5}px`;
+      } else if (bulletDirection === 'right') {
+        bullet.style.left = `${parseFloat(bullet.style.left) + 5}px`;
+      } else if (bulletDirection === 'left') {
+        bullet.style.left = `${parseFloat(bullet.style.left) - 5}px`;
+      }
+  
+      enemies.forEach((enemy, enemyIndex) => {
+        const enemyPosition = enemy.getBoundingClientRect();
+        if (checkBulletAndEnemyCollision(bulletPosition, enemyPosition)) {
+          console.log('Kill!');
+          bullet.remove();
+          enemy.remove();
+          bullets.splice(bulletIndex, 1);
+          enemies.splice(enemyIndex, 1);
         }
-
+      });
     });
-    
-    if(isPaused === false){
-        requestAnimationFrame(moveBullets);
+  
+    if (!isPaused) {
+      requestAnimationFrame(moveBullets);
     }
-}
+  }
 
 window.addEventListener('keydown', (e) => {
     let key = e.code
