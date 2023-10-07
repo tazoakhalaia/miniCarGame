@@ -1,6 +1,8 @@
 let canvas = document.querySelector('.canvas');
 let car = document.querySelector('.car')
 let enemies = [];
+let bullets = [];
+let carDirection = 'up'
 let canvasWidth = canvas.offsetWidth;
 let canvasHeight = canvas.offsetHeight;
 let carWidth = car.offsetWidth;
@@ -16,12 +18,9 @@ window.addEventListener('load', () => {
     roadLine.classList.add('road_line');
     roadLine.style.top = i * 20 + '%';
     canvas.append(roadLine);
-    console.log(roadLine);
    }
 
-
    //Enemy Loop
-
    for (let enemyIndex = 0; enemyIndex < 5; enemyIndex++) {
     let enemy = document.createElement('div');
     enemy.classList.add('enemy');
@@ -63,6 +62,7 @@ function carMove() {
 
         switch (key) {
             case "KeyW":
+                carDirection = 'up'
                 if (currentBottom + carHeight < canvasHeight - carHeight + carHeight / 2) {
                     car.style.bottom = (currentBottom + 20) + 'px';
                     car.style.transform = 'rotate(0deg)';
@@ -70,6 +70,7 @@ function carMove() {
                 break;
 
             case "KeyS":
+                carDirection = 'down'
                 if (currentBottom > 0) {
                     car.style.bottom = (currentBottom - 20) + 'px';
                     car.style.transform = 'rotate(180deg)';
@@ -77,6 +78,7 @@ function carMove() {
                 break;
 
             case "KeyD":
+                carDirection = 'right'
                 if (currentLeft + carWidth < canvasWidth - carWidth) {
                     car.style.left = (currentLeft + 20) + 'px';
                     car.style.transform = 'rotate(90deg)';
@@ -84,6 +86,7 @@ function carMove() {
                 break;
 
             case "KeyA":
+                carDirection = 'left'
                 if (currentLeft - carWidth > 0) {
                     car.style.left = (currentLeft - 20) + 'px';
                     car.style.transform = 'rotate(270deg)';
@@ -93,13 +96,66 @@ function carMove() {
     });
 }
 
-
 //End Car Move
+
+
+//Shoot bullet
+
+function moveBullets() {
+    bullets.forEach((bulletData) => {
+        const { bullet, bulletDirection } = bulletData;
+        
+        if (bulletDirection === 'up') {
+            bullet.style.top = `${parseFloat(bullet.style.top) - 5}px`;
+        } else if (bulletDirection === 'down') {
+            bullet.style.top = `${parseFloat(bullet.style.top) + 5}px`;
+        } else if (bulletDirection === 'right') {
+            bullet.style.left = `${parseFloat(bullet.style.left) + 5}px`;
+        } else if (bulletDirection === 'left') {
+            bullet.style.left = `${parseFloat(bullet.style.left) - 5}px`;
+        }
+
+    });
+
+    requestAnimationFrame(moveBullets);
+}
+
+window.addEventListener('keydown', (e) => {
+    let key = e.code
+    if(key === 'Space'){
+    const carPosition = car.getBoundingClientRect();
+    let bullet = document.createElement('div')
+    bullet.classList.add('bullet')
+    let bulletDirection;
+    if (carDirection === 'right') {
+        bullet.style.left = `${carPosition.left + carPosition.width}px`;
+        bullet.style.top = `${carPosition.top + 18}px`;
+        bulletDirection = 'right';
+    } else if (carDirection === 'left') {
+        bullet.style.left = `${carPosition.left - carPosition.width + 100}px`;
+        bullet.style.top = `${carPosition.top + 12}px`;
+        bulletDirection = 'left';
+    } else if (carDirection === 'up') {
+        bullet.style.top = `${carPosition.top - 15}px`;
+        bullet.style.left = `${carPosition.left + carPosition.width / 3}px`;
+        bulletDirection = 'up';
+    } else if (carDirection === 'down') {
+        bullet.style.left = `${carPosition.left + carPosition.width / 3}px`;
+        bullet.style.top = `${carPosition.top + 18}px`;
+        bulletDirection = 'down';
+    }
+    canvas.append(bullet)
+    bullets.push({ bullet, bulletDirection });
+    }
+})
+
+//End shoot 
 
 function gameStart(){
     carMove()
     enemyMove()
     setInterval(enemyMove, 100);
+    moveBullets()
 }
 
 gameStart()
