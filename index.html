@@ -4,57 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="mnah.css">
     <script src="mnah.js" defer></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        .canvas {
-            min-height: 100vh;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            background-color: black;
-            overflow: hidden;
-        }
-        .road_line {
-            position: absolute; 
-            z-index: 11; 
-            width: 5px; 
-            height: 10%; 
-            background-color: white;
-        }
-
-        .car {
-            position: absolute;
-            bottom: 0;
-            width: 50px;
-            height: 100px;
-            background: url('./img/car.png');
-            background-repeat: no-repeat;
-            background-size: 50px 100px;
-            z-index: 22;
-            left: 0;
-        }
-      
-        .enemy {
-            position: absolute;
-            display: flex;
-            top: 0;
-            width: 20px;
-            height: 10px;
-            background-color: blue;
-    }
-
-    .bullet {
-        position: absolute;
-        width: 20px;
-        height: 20px;
-        background-color: yellow;
-    }
-    </style>
     <title>mnah</title>
 </head>
 <body>

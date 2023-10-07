@@ -8,6 +8,7 @@ let canvasHeight = canvas.offsetHeight;
 let carWidth = car.offsetWidth;
 let carHeight = car.offsetHeight;
 let enemySpeed = 2;
+let isPaused = false;
 
 //Load
 
@@ -34,6 +35,19 @@ window.addEventListener('load', () => {
 
 
 //Enemy Move
+
+function checkCollision(carPosition, enemyPosition) {
+    const carRect = carPosition;
+    const enemyRect = enemyPosition;
+  
+    return (
+      carRect.right > enemyRect.left &&
+      carRect.left < enemyRect.right &&
+      carRect.bottom > enemyRect.top &&
+      carRect.top < enemyRect.bottom
+    );
+  }
+
 function enemyMove() {
     const carPosition = car.getBoundingClientRect();
     enemies.forEach((enemy) => {
@@ -48,7 +62,15 @@ function enemyMove() {
 
         enemy.style.left = `${enemyPosition.left + ratioX * enemySpeed}px`;
         enemy.style.top = `${enemyPosition.top + ratioY * enemySpeed}px`;
+
+        if (checkCollision(carPosition, enemyPosition)) {
+            console.log('Crash!');
+          }
     });
+
+    if(isPaused === false){
+        requestAnimationFrame(enemyMove)
+    }
 }
 
 //End Enemy Move
@@ -116,8 +138,10 @@ function moveBullets() {
         }
 
     });
-
-    requestAnimationFrame(moveBullets);
+    
+    if(isPaused === false){
+        requestAnimationFrame(moveBullets);
+    }
 }
 
 window.addEventListener('keydown', (e) => {
@@ -141,7 +165,7 @@ window.addEventListener('keydown', (e) => {
         bulletDirection = 'up';
     } else if (carDirection === 'down') {
         bullet.style.left = `${carPosition.left + carPosition.width / 3}px`;
-        bullet.style.top = `${carPosition.top + 18}px`;
+        bullet.style.top = `${carPosition.top + 65}px`;
         bulletDirection = 'down';
     }
     canvas.append(bullet)
@@ -154,7 +178,6 @@ window.addEventListener('keydown', (e) => {
 function gameStart(){
     carMove()
     enemyMove()
-    setInterval(enemyMove, 100);
     moveBullets()
 }
 
