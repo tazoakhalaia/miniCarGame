@@ -42,7 +42,7 @@
     background: url('./img/zombieEnemy.gif');
     background-repeat: no-repeat;
     background-size: 80px 70px;
-    /* background-color: blue; */
+    z-index: 33;
 }
 
 .bullet {
@@ -58,7 +58,8 @@ background-size: 20px 20px;
     position: absolute;
     left: 5px;
     top: 10px;
-    width: 150px;
-    height: 30px;
+    width: 200px;
+    height: 20px;
     background-color: red;
+    border-radius: 20px;
 }

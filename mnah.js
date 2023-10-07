@@ -63,8 +63,6 @@ function checkCollision(carPosition, enemyPosition) {
     );
   }
 
-
-
 //End CheckColission
 
 
@@ -87,8 +85,8 @@ function enemyMove() {
 
         if (checkCollision(carPosition, enemyPosition)) {
             console.log('Crash!');
-            carHealth -= 3
-            carHealthDiv.style.width = (carHealth - 10) + 'px'
+            carHealth -= 1
+            carHealthDiv.style.width = (carHealth) + 'px'
             console.log(carHealthDiv, carHealth);
             if(carHealth === 0){
               car.remove()
