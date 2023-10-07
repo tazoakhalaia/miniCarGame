@@ -8,7 +8,9 @@
     position: relative;
     display: flex;
     justify-content: center;
-    background-color: black;
+    background: url('./img/road.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
     overflow: hidden;
 }
 .road_line {
@@ -35,14 +37,28 @@
     position: absolute;
     display: flex;
     top: 0;
-    width: 20px;
-    height: 10px;
-    background-color: blue;
+    width: 80px;
+    height: 70px;
+    background: url('./img/zombieEnemy.gif');
+    background-repeat: no-repeat;
+    background-size: 80px 70px;
+    /* background-color: blue; */
 }
 
 .bullet {
 position: absolute;
 width: 20px;
 height: 20px;
-background-color: yellow;
+background: url('./img/lasetBullet.png');
+background-repeat: no-repeat;
+background-size: 20px 20px;
+}
+
+.health {
+    position: absolute;
+    left: 5px;
+    top: 10px;
+    width: 150px;
+    height: 30px;
+    background-color: red;
 }

@@ -10,20 +10,22 @@ let carHeight = car.offsetHeight;
 let enemySpeed = 2;
 let isPaused = false;
 let enemyPosition;
+let carHealthDiv = document.querySelector('.health')
+let carHealth = carHealthDiv.offsetWidth
 
 //Load
 
 window.addEventListener('load', () => {
     // Road Line
-   for (let i = 0; i < 10; i++) {
-    let roadLine = document.createElement('div');
-    roadLine.classList.add('road_line');
-    roadLine.style.top = i * 20 + '%';
-    canvas.append(roadLine);
-   }
+  //  for (let i = 0; i < 10; i++) {
+  //   let roadLine = document.createElement('div');
+  //   roadLine.classList.add('road_line');
+  //   roadLine.style.top = i * 20 + '%';
+  //   canvas.append(roadLine);
+  //  }
 
    //Enemy Loop
-   for (let enemyIndex = 0; enemyIndex < 2; enemyIndex++) {
+   for (let enemyIndex = 0; enemyIndex < 5; enemyIndex++) {
     let enemy = document.createElement('div');
     enemy.classList.add('enemy');
     enemy.style.right =`${Math.random() * 100}%`;
@@ -85,8 +87,13 @@ function enemyMove() {
 
         if (checkCollision(carPosition, enemyPosition)) {
             console.log('Crash!');
-            car.remove()
-            isPaused = true
+            carHealth -= 3
+            carHealthDiv.style.width = (carHealth - 10) + 'px'
+            console.log(carHealthDiv, carHealth);
+            if(carHealth === 0){
+              car.remove()
+              isPaused = true
+            }
           }
     });
 
@@ -169,6 +176,7 @@ function moveBullets() {
           bullets.splice(bulletIndex, 1);
           enemies.splice(enemyIndex, 1);
           if(enemies.length === 0){
+            car.remove()
             isPaused = true
           }
         }
@@ -180,34 +188,48 @@ function moveBullets() {
     }
   }
 
-window.addEventListener('keydown', (e) => {
-    let key = e.code
-    if(key === 'Space'){
-    const carPosition = car.getBoundingClientRect();
-    let bullet = document.createElement('div')
-    bullet.classList.add('bullet')
-    let bulletDirection;
-    if (carDirection === 'right') {
-        bullet.style.left = `${carPosition.left + carPosition.width}px`;
-        bullet.style.top = `${carPosition.top + 18}px`;
-        bulletDirection = 'right';
-    } else if (carDirection === 'left') {
-        bullet.style.left = `${carPosition.left - carPosition.width + 100}px`;
-        bullet.style.top = `${carPosition.top + 12}px`;
-        bulletDirection = 'left';
-    } else if (carDirection === 'up') {
-        bullet.style.top = `${carPosition.top - 15}px`;
-        bullet.style.left = `${carPosition.left + carPosition.width / 3}px`;
-        bulletDirection = 'up';
-    } else if (carDirection === 'down') {
-        bullet.style.left = `${carPosition.left + carPosition.width / 3}px`;
-        bullet.style.top = `${carPosition.top + 65}px`;
-        bulletDirection = 'down';
+  window.addEventListener('keydown', (e) => {
+    let key = e.code;
+    if (key === 'Space') {
+        const carPosition = car.getBoundingClientRect();
+        let bullet = document.createElement('div');
+        bullet.classList.add('bullet');
+        let bulletDirection;
+
+        switch (carDirection) {
+            case 'right':
+                bullet.style.transform = 'rotate(90deg)';
+                bullet.style.left = `${carPosition.left + carPosition.width}px`;
+                bullet.style.top = `${carPosition.top + 18}px`;
+                bulletDirection = 'right';
+                break;
+            case 'left':
+                bullet.style.transform = 'rotate(270deg)';
+                bullet.style.left = `${carPosition.left - carPosition.width + 100}px`;
+                bullet.style.top = `${carPosition.top + 12}px`;
+                bulletDirection = 'left';
+                break;
+            case 'up':
+                bullet.style.transform = 'rotate(360deg)';
+                bullet.style.top = `${carPosition.top - 15}px`;
+                bullet.style.left = `${carPosition.left + carPosition.width / 3}px`;
+                bulletDirection = 'up';
+                break;
+            case 'down':
+                bullet.style.transform = 'rotate(180deg)';
+                bullet.style.left = `${carPosition.left + carPosition.width / 3}px`;
+                bullet.style.top = `${carPosition.top + 65}px`;
+                bulletDirection = 'down';
+                break;
+            default:
+                break;
+        }
+
+        canvas.append(bullet);
+        bullets.push({ bullet, bulletDirection });
     }
-    canvas.append(bullet)
-    bullets.push({ bullet, bulletDirection });
-    }
-})
+});
+
 
 //End shoot 
 
