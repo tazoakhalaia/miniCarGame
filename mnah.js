@@ -23,7 +23,7 @@ window.addEventListener('load', () => {
    }
 
    //Enemy Loop
-   for (let enemyIndex = 0; enemyIndex < 5; enemyIndex++) {
+   for (let enemyIndex = 0; enemyIndex < 2; enemyIndex++) {
     let enemy = document.createElement('div');
     enemy.classList.add('enemy');
     enemy.style.right =`${Math.random() * 100}%`;
@@ -70,7 +70,7 @@ function checkCollision(carPosition, enemyPosition) {
 
 function enemyMove() {
     const carPosition = car.getBoundingClientRect();
-    enemies.forEach((enemy, enemyIndex) => {
+    enemies.forEach((enemy) => {
          enemyPosition = enemy.getBoundingClientRect();
 
         const deltaX = carPosition.x - enemyPosition.x;
@@ -168,6 +168,9 @@ function moveBullets() {
           enemy.remove();
           bullets.splice(bulletIndex, 1);
           enemies.splice(enemyIndex, 1);
+          if(enemies.length === 0){
+            isPaused = true
+          }
         }
       });
     });
