@@ -1,3 +1,3 @@
-function menuFn(){
+function menuFn() {
     console.log('menu');
 }

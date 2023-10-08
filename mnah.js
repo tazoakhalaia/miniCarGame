@@ -14,8 +14,8 @@ let carHealthDiv = document.querySelector('.health')
 let carHealth = carHealthDiv.offsetWidth
 import { checkCollision, checkBulletAndEnemyCollision } from './js/collision.js' 
 
-//Load
 
+//Load
 window.addEventListener('load', () => {
    //Enemy Loop
    for (let enemyIndex = 0; enemyIndex < 5; enemyIndex++) {
