@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/GameMenu.css">
     <link rel="stylesheet" href="mnah.css">
     <script src="./js/menu.js" defer></script>
     <script src="./js/settings.js" defer></script>
@@ -21,9 +22,19 @@
                     <button>Start</button>
                 </div>
             </center>
-            <div style="display: flex; align-items: center; justify-content: center; margin-top: 50px;">
-                <button onclick="settingFn()" class="settings"></button>
-                <button onclick="menuFn()" class="menu"></button>
+            <div class="settings_menu">
+                <div class="settings_menu_btn"> 
+                    <button onclick="settingFn()" class="settings"></button>
+                    <button onclick="menuFn()" class="menu"></button>
+                </div>
+                <div class="settings_menu_box">
+                    <div class="settings_box">
+                        setting
+                    </div>
+                    <div class="menu_box">
+                        menu
+                    </div>
+                </div>
             </div>
         </div>
     </div>
