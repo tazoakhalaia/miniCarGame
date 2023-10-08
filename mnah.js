@@ -47,7 +47,7 @@ function enemyMove() {
         enemy.style.top = `${enemyPosition.top + ratioY * enemySpeed}px`;
 
         if (checkCollision(carPosition, enemyPosition)) {
-            carHealth -= 1
+            carHealth -= 0.5
             carHealthDiv.style.width = (carHealth) + 'px'
             if(carHealth === 0){
               car.remove()

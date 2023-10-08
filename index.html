@@ -6,12 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="mnah.css">
     <script type="module" src="mnah.js" defer></script>
+    <script src="./js/settings.js" defer></script>
+    <script src="./js/menu.js" defer></script>
     <title>mnah</title>
 </head>
 <body>
     <div class="canvas">
         <div class="car"></div>
-        <div class="health"></div>
+        <div class="system">
+            <div class="health"></div>
+            <div style="display: flex; align-items: center;">
+                <button onclick="settingFn()" class="settings"></button>
+                <button onclick="menuFn()" class="menu"></button>
+            </div>
+        </div>
     </div>
 </body>
 </html>
