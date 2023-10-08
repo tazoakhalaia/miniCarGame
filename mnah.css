@@ -56,10 +56,10 @@ background-size: 20px 20px;
 
 .health {
     position: absolute;
-    left: 5px;
+    left: 10px;
     top: 10px;
     width: 200px;
     height: 20px;
     background-color: red;
-    border-radius: 20px;
+    border-bottom-right-radius: 30px;
 }

@@ -12,18 +12,11 @@ let isPaused = false;
 let enemyPosition;
 let carHealthDiv = document.querySelector('.health')
 let carHealth = carHealthDiv.offsetWidth
+import { checkCollision, checkBulletAndEnemyCollision } from './js/collision.js' 
 
 //Load
 
 window.addEventListener('load', () => {
-    // Road Line
-  //  for (let i = 0; i < 10; i++) {
-  //   let roadLine = document.createElement('div');
-  //   roadLine.classList.add('road_line');
-  //   roadLine.style.top = i * 20 + '%';
-  //   canvas.append(roadLine);
-  //  }
-
    //Enemy Loop
    for (let enemyIndex = 0; enemyIndex < 5; enemyIndex++) {
     let enemy = document.createElement('div');
@@ -35,36 +28,6 @@ window.addEventListener('load', () => {
 })
 
 //End Load
-
-//Check Collision
-
-function checkCollision(carPosition, enemyPosition) {
-    const carRect = carPosition;
-    const enemyRect = enemyPosition;
-  
-    return (
-      carRect.right > enemyRect.left &&
-      carRect.left < enemyRect.right &&
-      carRect.bottom > enemyRect.top &&
-      carRect.top < enemyRect.bottom
-    );
-  }
-
-
-  function checkBulletAndEnemyCollision(bulletPosition, enemyPosition) {
-    const bulletRect = bulletPosition;
-    const enemyRect = enemyPosition;
-  
-    return (
-      bulletRect.right > enemyRect.left &&
-      bulletRect.left < enemyRect.right &&
-      bulletRect.bottom > enemyRect.top &&
-      bulletRect.top < enemyRect.bottom
-    );
-  }
-
-//End CheckColission
-
 
 //Enemy Move
 
@@ -84,10 +47,8 @@ function enemyMove() {
         enemy.style.top = `${enemyPosition.top + ratioY * enemySpeed}px`;
 
         if (checkCollision(carPosition, enemyPosition)) {
-            console.log('Crash!');
             carHealth -= 1
             carHealthDiv.style.width = (carHealth) + 'px'
-            console.log(carHealthDiv, carHealth);
             if(carHealth === 0){
               car.remove()
               isPaused = true
@@ -168,7 +129,6 @@ function moveBullets() {
       enemies.forEach((enemy, enemyIndex) => {
         const enemyPosition = enemy.getBoundingClientRect();
         if (checkBulletAndEnemyCollision(bulletPosition, enemyPosition)) {
-          console.log('Kill!');
           bullet.remove();
           enemy.remove();
           bullets.splice(bulletIndex, 1);
